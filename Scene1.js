@@ -56,6 +56,7 @@ class Scene1 extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
+    
 
     this.anims.create({
       key: "ship3_anim",
