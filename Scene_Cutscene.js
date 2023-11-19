@@ -17,10 +17,10 @@ class CutScene extends Phaser.Scene {
     );
 
     this.add.sprite(
-      64, 
+      128, 
       config.height/2 + 128, 
       "moran"
-    );
+    ).setScale(1.5);
 
     this.add.sprite(
       config.width - 32, 
