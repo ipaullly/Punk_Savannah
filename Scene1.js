@@ -113,10 +113,106 @@ class Scene1 extends Phaser.Scene {
       frameRate: 9,
       repeat: -1
     });
-    this.add.text(20, 20, "Loading game....");
-    setTimeout(() => {
-      // this.scene.start("spaceArea");  
-      this.scene.start("successPg");
-    }, 1000);
+    this.add.text(20, 20, "Instructions");
+
+    this.add.text(
+      20, 
+      60, 
+      "Ole Punctum has lost his livestock carriers",
+      {
+        fontSize: '14px'
+      }
+    );
+    this.add.text(
+      20, 
+      80, 
+      "while transporting the herd ",
+      {
+        fontSize: '14px'
+      }
+    );
+    this.add.text(
+      20, 
+      100, 
+      "back from Io after a herding season.",
+      {
+        fontSize: '14px'
+      }
+    );
+      this.add.text(
+        20,
+        140, 
+        "Unfortunately rival clans",
+        {
+          fontSize: '14px',
+        }
+      );
+      this.add.text(
+        20,
+        160, 
+        "managed to capture Ole Punctum's carriers",
+        {
+          fontSize: '14px',
+        }
+      );
+      this.add.text(
+        20, 
+        200, 
+        "use LEFT & RIGHT keys to move the Millenium Moran",
+        {
+          fontSize: '14px',
+        }
+      );
+      this.add.text(
+        20, 
+        220, 
+        "to evade enemies and collect lost cargo",
+        {
+          fontSize: '14px',
+        }
+      );
+      this.add.text(
+        20, 
+        260, 
+        "use SPACEBAR to blast oncoming ships,",
+        {
+          fontSize: '14px',
+        }
+      );
+
+      this.add.text(
+        20, 
+        300, 
+        "getting hit by enemy ship -> - 100 points",
+        {
+          fontSize: '14px',
+        }
+      );
+      this.add.text(
+        20, 
+        320, 
+        "hitting enemy -> + 60 points",
+        {
+          fontSize: '14px',
+        }
+      );
+
+      const clickButton = this.add.text(
+        20, 
+        340, 
+        'Go to Game', 
+        { 
+          backgroundColor: '#dae2da', 
+          color: '#413114',
+          padding: {
+            x: 15,
+            y: 10
+          } 
+        });
+      clickButton.setInteractive();
+      clickButton.on('pointerdown', () => {
+        this.scene.start("spaceArea"); 
+      });  
+
   }
 }

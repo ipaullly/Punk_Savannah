@@ -50,7 +50,7 @@ class Scene2 extends Phaser.Scene {
     // add power ups
     this.powerUps = this.physics.add.group();
 
-    let maxObjects = 3;
+    let maxObjects = 6;
     for (let i=0;i<=maxObjects;i++) {
       let powerUp = this.physics.add.sprite(16, 16, "power-up");
       this.powerUps.add(powerUp);
@@ -68,7 +68,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player");
-    this.player.setScale(0.25);
+    this.player.setScale(0.3);
     this.player.play("thrust");
     this.player.setCollideWorldBounds(true);
 
@@ -109,6 +109,10 @@ class Scene2 extends Phaser.Scene {
     this.score = 0;
     this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE ", 16);
 
+    this.scoreToBeat = this.add.bitmapText(config.width/3, 5, "pixelFont", "SCORE TO BEAT: 400", 16);
+    
+    this.lostCargo = 0;
+    this.lostCargoLabel = this.add.bitmapText(config.width - 120, 5, "pixelFont", "LOST CARGO ", 16);
 
     // Listen for the scene pause event
     this.events.on('pause', function () {
@@ -155,10 +159,10 @@ class Scene2 extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.letterP)) {
       console.log('p clicked')
       // if (this.isPaused) {
-      //   this.scene.resume('playGame'); 
+      //   this.scene.resume('spaceArea'); 
       //   this.music.play(this.musicConfigSettings)
       // } else {
-      //   this.scene.pause('playGame'); 
+      //   this.scene.pause('spaceArea'); 
       //   this.music.pause()
       // }
     }
@@ -218,9 +222,9 @@ class Scene2 extends Phaser.Scene {
 
   movePlayerManager() {
     if (this.cursorKeys.left.isDown) {
-      this.player.x -= gameSettings.playerSpeed;
+      this.player.x -= gameSettings.playerSpeed * 3;
     } else if (this.cursorKeys.right.isDown) {
-      this.player.x += gameSettings.playerSpeed;
+      this.player.x += gameSettings.playerSpeed * 3;
     }
     
     // if (this.cursorKeys.down.isDown) {
@@ -238,6 +242,7 @@ class Scene2 extends Phaser.Scene {
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.pickupSound.play(this.soundVolume);
+    this.collectCargo(1, true)
   }
 
   hurtPlayer(player, enemy) {
@@ -247,7 +252,7 @@ class Scene2 extends Phaser.Scene {
     }
     let explosion = new Explosion(this, player.x, player.y);
     this.collisionSound.play(this.soundVolume);
-    this.adjustScore(10, false)  ;
+    this.adjustScore(100, false)  ;
     player.disableBody(true, true);
     this.time.addEvent({
       delay: 1000,
@@ -261,8 +266,20 @@ class Scene2 extends Phaser.Scene {
     let explosion = new Explosion(this, enemy.x, enemy.y);
     projectile.destroy();
     this.resetShipPos(enemy);
-    this.adjustScore(60, true);
+    this.adjustScore(50, true);
     this.explosionSound.play(this.soundVolume);
+  }
+
+  collectCargo(lostCargoValue, operation) {
+    if (operation) {
+      this.lostCargo += lostCargoValue;  
+    } else {
+      if(this.lostCargo > 0) { // the lostCargo isn't adjusted in case it is below zero or zero
+          this.lostCargo -= lostCargoValue;  
+        } 
+      }
+   
+    this.lostCargoLabel.text = "LOST CARGO: " + this.lostCargo;
   }
 
   adjustScore(scoreValue, operation) {
@@ -273,6 +290,7 @@ class Scene2 extends Phaser.Scene {
      
       let totalScore = this.score
       localStorage.setItem('totalScore', totalScore)
+      localStorage.setItem('totalLostCargo', this.lostCargo)
       let tween = this.tweens.add({
         targets: this.player,
         y: -20,

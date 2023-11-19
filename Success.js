@@ -32,6 +32,10 @@ class SuccessPage extends Phaser.Scene {
       }
     );
     let totalScore = localStorage.getItem('totalScore')?localStorage.getItem('totalScore'):0
+    let totalLostCargo = localStorage.getItem('totalLostCargo')
+      ? localStorage.getItem('totalLostCargo')
+      : 0;
+
     this.add.text(
       config.width/2, 
       60, 
@@ -41,9 +45,18 @@ class SuccessPage extends Phaser.Scene {
       }
     );
 
-    const clickButton = this.add.text(
+    this.add.text(
       config.width/2, 
       100, 
+      `Cargo Collected: ${totalLostCargo}`,
+      {
+        fontSize: '16px'
+      }
+    );
+
+    const clickButton = this.add.text(
+      config.width/2, 
+      140, 
       'Start Game', 
       { 
         backgroundColor: '#dae2da', 
@@ -55,7 +68,7 @@ class SuccessPage extends Phaser.Scene {
       });
     clickButton.setInteractive();
     clickButton.on('pointerdown', () => {
-      this.scene.start("spaceArea");
+      this.scene.start("bootGame");
     });  
   }
 }
