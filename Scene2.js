@@ -1,10 +1,10 @@
 class Scene2 extends Phaser.Scene {
   constructor() {
-    super("playGame");
+    super("spaceArea");
   }
   create() {
     this.background = this.add.tileSprite(
-      0, 0, config.width, config.height, "background"
+      0, 0, config.width, config.height, "space-bg"
     );
     this.background.setOrigin(0, 0);
 
@@ -261,16 +261,18 @@ class Scene2 extends Phaser.Scene {
     let explosion = new Explosion(this, enemy.x, enemy.y);
     projectile.destroy();
     this.resetShipPos(enemy);
-    this.adjustScore(50, true);
+    this.adjustScore(60, true);
     this.explosionSound.play(this.soundVolume);
   }
 
   adjustScore(scoreValue, operation) {
     // console.log('score', this.score)
-    if (this.score >= 150) {
+    if (this.score >= 400) {
      
       this.player.alpha = 1;
-
+     
+      let totalScore = this.score
+      localStorage.setItem('totalScore', totalScore)
       let tween = this.tweens.add({
         targets: this.player,
         y: -20,
@@ -279,12 +281,11 @@ class Scene2 extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.player.alpha = 0;
-          this.music.pause()
-          this.scene.start("spaceArea");
+          this.scene.start("desertArea");
         },
         callbackScope: this
       });
-     
+      this.music.pause()
     } else {
       if (operation) {
         this.score += scoreValue;  

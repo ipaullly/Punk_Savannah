@@ -12,19 +12,19 @@ class Scene4 extends Phaser.Scene {
       config.width/2 - 50, 
       config.height/2, 
       "ship"
-    );
+    ).setScale(3);
 
     this.ship2 = this.add.sprite(
       config.width/2, 
       config.height/2, 
       "ship2"
-    );
+    ).setScale(3);
 
     this.ship3 = this.add.sprite(
       config.width/2 + 50, 
       config.height/2, 
       "ship3"
-    );
+    ).setScale(3);
 
     // add enemy ships
     this.enemies = this.physics.add.group();
@@ -277,16 +277,18 @@ class Scene4 extends Phaser.Scene {
     let explosion = new Explosion(this, enemy.x, enemy.y);
     projectile.destroy();
     this.resetShipPos(enemy);
-    this.adjustScore(50, true);
+    this.adjustScore(30, true);
     this.explosionSound.play(this.soundVolume);
   }
 
   adjustScore(scoreValue, operation) {
     // console.log('score', this.score)
-    if (this.score >= 150) {
+    if (this.score >= 450) {
      
       this.player.alpha = 1;
-
+      let totalScore = localStorage.getItem('totalScore')
+      totalScore = Number(totalScore) + this.score
+      localStorage.setItem('totalScore', totalScore)
       let tween = this.tweens.add({
         targets: this.player,
         y: -20,
@@ -299,6 +301,7 @@ class Scene4 extends Phaser.Scene {
         callbackScope: this
       });
       this.music.pause()
+      this.scene.start("successPg");
     } else {
       if (operation) {
         this.score += scoreValue;  

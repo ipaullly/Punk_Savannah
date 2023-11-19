@@ -1,10 +1,10 @@
 class Scene3 extends Phaser.Scene {
   constructor() {
-    super("spaceArea");
+    super("desertArea");
   }
   create() {
     this.background = this.add.tileSprite(
-      0, 0, config.width, config.height, "space-bg"
+      0, 0, config.width, config.height, "background"
     );
     this.background.setOrigin(0, 0);
 
@@ -12,19 +12,19 @@ class Scene3 extends Phaser.Scene {
       config.width/2 - 50, 
       config.height/2, 
       "ship"
-    );
+    ).setScale(2);
 
     this.ship2 = this.add.sprite(
       config.width/2, 
       config.height/2, 
       "ship2"
-    );
+    ).setScale(1.5);
 
     this.ship3 = this.add.sprite(
       config.width/2 + 50, 
       config.height/2, 
       "ship3"
-    );
+    ).setScale(2);
 
     // add enemy ships
     this.enemies = this.physics.add.group();
@@ -50,7 +50,7 @@ class Scene3 extends Phaser.Scene {
     // add power ups
     this.powerUps = this.physics.add.group();
 
-    let maxObjects = 3;
+    let maxObjects = 4;
     for (let i=0;i<=maxObjects;i++) {
       let powerUp = this.physics.add.sprite(16, 16, "power-up");
       this.powerUps.add(powerUp);
@@ -267,10 +267,12 @@ class Scene3 extends Phaser.Scene {
 
   adjustScore(scoreValue, operation) {
     // console.log('score', this.score)
-    if (this.score >= 150) {
+    if (this.score >= 500) {
      
       this.player.alpha = 1;
-
+      let totalScore = localStorage.getItem('totalScore')
+      totalScore = Number(totalScore) + this.score
+      localStorage.setItem('totalScore', totalScore)
       let tween = this.tweens.add({
         targets: this.player,
         y: -20,
@@ -279,6 +281,8 @@ class Scene3 extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.player.alpha = 0;
+          
+          this.scene.start("gangArea");
         },
         callbackScope: this
       });

@@ -11,7 +11,8 @@ let config = {
     Scene1, 
     Scene2,
     Scene3,
-    Scene4
+    Scene4,
+    SuccessPage
   ],
   pixelArt: true,
   physics: {

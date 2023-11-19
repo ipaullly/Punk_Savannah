@@ -115,8 +115,8 @@ class Scene1 extends Phaser.Scene {
     });
     this.add.text(20, 20, "Loading game....");
     setTimeout(() => {
-      // this.scene.start("playGame");  
-      this.scene.start("gangArea");
-    }, 3000);
+      // this.scene.start("spaceArea");  
+      this.scene.start("successPg");
+    }, 1000);
   }
 }
