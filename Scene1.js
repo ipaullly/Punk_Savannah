@@ -5,6 +5,9 @@ class Scene1 extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "assets/background.png");
+    this.load.image("space-bg", "assets/space-bg.png");
+    this.load.image("io_homeworld", "assets/io_homeworld.png");
+    this.load.image("millenium_moran", "assets/millenium_moran.png");
     this.load.spritesheet("explosion", "spritesheets/explosion.png", {
       frameWidth: 16,
       frameHeight: 16,
@@ -56,7 +59,7 @@ class Scene1 extends Phaser.Scene {
       frameRate: 20,
       repeat: -1
     });
-    
+
 
     this.anims.create({
       key: "ship3_anim",
@@ -110,8 +113,10 @@ class Scene1 extends Phaser.Scene {
       frameRate: 9,
       repeat: -1
     });
-
     this.add.text(20, 20, "Loading game....");
-    this.scene.start("playGame");
+    setTimeout(() => {
+      // this.scene.start("playGame");  
+      this.scene.start("gangArea");
+    }, 3000);
   }
 }

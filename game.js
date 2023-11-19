@@ -4,9 +4,15 @@ let gameSettings = {
 
 let config = {
   width: 512,
-  height: 544,
+  height: 512,
   backgroundColor: 0x000000,
-  scene: [Scene1, Scene2],
+  scene: [
+    CutScene,
+    Scene1, 
+    Scene2,
+    Scene3,
+    Scene4
+  ],
   pixelArt: true,
   physics: {
     default: "arcade",

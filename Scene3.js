@@ -1,10 +1,10 @@
-class Scene2 extends Phaser.Scene {
+class Scene3 extends Phaser.Scene {
   constructor() {
-    super("playGame");
+    super("spaceArea");
   }
   create() {
     this.background = this.add.tileSprite(
-      0, 0, config.width, config.height, "background"
+      0, 0, config.width, config.height, "space-bg"
     );
     this.background.setOrigin(0, 0);
 
@@ -279,12 +279,10 @@ class Scene2 extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.player.alpha = 0;
-          this.music.pause()
-          this.scene.start("spaceArea");
         },
         callbackScope: this
       });
-     
+      this.music.pause()
     } else {
       if (operation) {
         this.score += scoreValue;  

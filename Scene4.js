@@ -1,14 +1,14 @@
-class Scene2 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
   constructor() {
-    super("playGame");
+    super("gangArea");
   }
   create() {
     this.background = this.add.tileSprite(
-      0, 0, config.width, config.height, "background"
+      0, 0, config.width, config.height, "io_homeworld"
     );
     this.background.setOrigin(0, 0);
 
-    this.ship1 = this.add.sprite(
+    this.spaceShip = this.add.sprite(
       config.width/2 - 50, 
       config.height/2, 
       "ship"
@@ -29,15 +29,15 @@ class Scene2 extends Phaser.Scene {
     // add enemy ships
     this.enemies = this.physics.add.group();
 
-    this.enemies.add(this.ship1);
+    this.enemies.add(this.spaceShip);
     this.enemies.add(this.ship2);
     this.enemies.add(this.ship3);
 
-    this.ship1.play("ship1_anim", true);
+    this.spaceShip.play("ship1_anim", true);
     this.ship2.play("ship2_anim", true);
     this.ship3.play("ship3_anim", true);
 
-    this.ship1.setInteractive();
+    this.spaceShip.setInteractive();
     this.ship2.setInteractive();
     this.ship3.setInteractive();
 
@@ -67,7 +67,7 @@ class Scene2 extends Phaser.Scene {
       powerUp.setBounce(1);  
     }
 
-    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, "player");
+    this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 32, "player");
     this.player.setScale(0.25);
     this.player.play("thrust");
     this.player.setCollideWorldBounds(true);
@@ -91,9 +91,21 @@ class Scene2 extends Phaser.Scene {
       }
     );
 
+    let endLine = this.add.graphics();
+    endLine.fillStyle(0x8A8A8A, 1);
+    endLine.beginPath();
+    endLine.moveTo(0, config.height - 40);
+    endLine.lineTo(config.width, config.height - 40);
+    endLine.closePath();
+    endLine.fillPath();
+
     this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this);
     this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
     this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
+
+
+    this.physics.add.overlap(endLine, this.powerUps, this.cancelProjectiles, null, this);
+    this.physics.add.overlap(endLine, this.enemies, this.cancelProjectiles, null, this);
 
     let graphics = this.add.graphics();
     graphics.fillStyle(0x8A8A8A, 1);
@@ -139,7 +151,7 @@ class Scene2 extends Phaser.Scene {
   }
 
   update() {
-    this.moveShip(this.ship1, 1);
+    this.moveShip(this.spaceShip, 1);
     this.moveShip(this.ship2, 2);
     this.moveShip(this.ship3, 2.5);
 
@@ -257,6 +269,10 @@ class Scene2 extends Phaser.Scene {
     });
   }
 
+  cancelProjectiles(projectile, enemy) {
+    projectile.destroy();
+  }
+
   hitEnemy(projectile, enemy) {
     let explosion = new Explosion(this, enemy.x, enemy.y);
     projectile.destroy();
@@ -279,12 +295,10 @@ class Scene2 extends Phaser.Scene {
         repeat: 0,
         onComplete: () => {
           this.player.alpha = 0;
-          this.music.pause()
-          this.scene.start("spaceArea");
         },
         callbackScope: this
       });
-     
+      this.music.pause()
     } else {
       if (operation) {
         this.score += scoreValue;  
