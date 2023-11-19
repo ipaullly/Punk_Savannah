@@ -183,7 +183,7 @@ class Scene1 extends Phaser.Scene {
       this.add.text(
         20, 
         300, 
-        "getting hit by enemy ship -> - 100 points",
+        "hit by enemy ship:  - 100 points",
         {
           fontSize: '14px',
         }
@@ -191,7 +191,7 @@ class Scene1 extends Phaser.Scene {
       this.add.text(
         20, 
         320, 
-        "hitting enemy -> + 60 points",
+        "hitting an enemy:  + 60 points",
         {
           fontSize: '14px',
         }
