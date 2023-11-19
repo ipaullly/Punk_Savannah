@@ -199,7 +199,7 @@ class Scene1 extends Phaser.Scene {
 
       const clickButton = this.add.text(
         20, 
-        340, 
+        360, 
         'Go to Game', 
         { 
           backgroundColor: '#dae2da', 
