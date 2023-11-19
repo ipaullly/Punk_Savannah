@@ -107,7 +107,7 @@ class Scene3 extends Phaser.Scene {
     graphics.fillPath();
 
     this.score = 0;
-    this.scoreLabel = this.add.bitmapText(10, 5, "pixelFont", "SCORE ", 16);
+    this.scoreLabel = this.add.bitmapText(10, 2, "pixelFont", "SCORE ", 20);
 
     this.scoreToBeat = this.add.bitmapText(config.width/3, 5, "pixelFont", "SCORE TO BEAT: 500", 16);
 
@@ -293,7 +293,7 @@ class Scene3 extends Phaser.Scene {
 
       let totalLostCargo = localStorage.getItem('totalLostCargo');
       totalLostCargo = Number(totalLostCargo) + this.lostCargo;
-      localStorage.setItem('totalLostCargo', this.lostCargo)
+      localStorage.setItem('totalLostCargo', totalLostCargo)
 
       let tween = this.tweens.add({
         targets: this.player,

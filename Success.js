@@ -48,7 +48,7 @@ class SuccessPage extends Phaser.Scene {
     this.add.text(
       config.width/2, 
       100, 
-      `Cargo Collected: ${totalLostCargo}`,
+      `Cargo Collected: ${totalLostCargo}/26`,
       {
         fontSize: '16px'
       }
